@@ -127,4 +127,48 @@ SELECT * FROM items LIMIT 2;# first 2 records
 SELECT * FROM items ORDER BY item_id DESC LIMIT 2; #last 2 records
 SELECT * FROM items ORDER BY item_name DESC LIMIT 3; #last 2 records
 
+#AGGREGATE FUNCTIONS - when you have a range of data and want to perform an operation on them to return a single value - NUMERICAL VALUES
+#Average - AVG
+#Sum - SUM
+#Minimum - MIN
+#Maximum - MAX
+#Count - COUNT
 
+SELECT AVG(price) FROM items;
+SELECT MIN(price) FROM items;
+SELECT MAX(price) FROM items;
+SELECT SUM(price) FROM items;
+SELECT COUNT(price) FROM items;
+
+#Nested queries - A QUERY IN A QUERY
+
+SELECT cust_id FROM orders WHERE order_id=2; #returns 5
+SELECT * FROM customers WHERE c_id=5;
+
+SELECT * FROM customers WHERE c_id=(SELECT cust_id FROM orders WHERE order_id=2);
+
+
+SELECT i_id FROM order_items WHERE oi_id=1; # returns 3
+SELECT * FROM items WHERE item_id=3;
+
+SELECT * FROM items WHERE item_id=(SELECT i_id FROM order_items WHERE oi_id=1);
+
+
+SELECT item_name FROM items WHERE item_id=(SELECT i_id FROM order_items WHERE ord_id=(SELECT order_id FROM orders WHERE cust_id=(SELECT c_id FROM customers WHERE c_name="blue")));
+
+#JOINS:
+#INNER JOIN - default one, combines tables together based on data that is present in both tables
+SELECT * FROM customers;
+SELECT * FROM orders;
+SELECT * FROM customers JOIN orders ON customers.c_id=orders.cust_id;
+SELECT customers.c_name, customers.phone_number, orders.order_id FROM customers JOIN orders ON customers.c_id=orders.cust_id;
+SELECT c.c_name, c.phone_number, o.order_id FROM customers c JOIN orders o ON c.c_id=o.cust_id;
+#OUTER JOINS - 2 types, LEFT OUTER JOIN and RIGHT OUTER JOIN
+#LEFT OUTER JOIN
+SELECT * FROM customers c LEFT OUTER JOIN orders o ON c.c_id=o.cust_id;# customers table is looking for records to match in the orders table(displayed on the right of it), any records that don't have a match are populated with NULL
+#RIGHT OUTER JOIN
+SELECT * FROM orders o RIGHT OUTER JOIN customers c ON c.c_id=o.cust_id;
+
+SELECT * FROM order_items;
+
+SELECT c.c_name, o.order_id, oi.quantity,i.item_name, i.price FROM customers c JOIN orders o ON c.c_id=o.cust_id JOIN order_items oi ON o.order_id=oi.ord_id JOIN items i ON oi.i_id=i.item_id;
