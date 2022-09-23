@@ -29,6 +29,12 @@ SELECT * FROM countrylanguage;
 SELECT * FROM country;
 SELECT countrylanguage.Language FROM countrylanguage JOIN country ON countrylanguage.CountryCode=country.Code WHERE country.Region="Southeast Asia";
 
+SELECT * FROM country;
+SELECT Name FROM country WHERE Name LIKE "F%" ORDER BY Name LIMIT 25;
+#Falkland Islands, Faroe Islands, Fiji islands, Finland, France, French Guiana, French Polynesia, French Southern Territories
+
+SELECT * FROM country;
+SELECT * FROM city;
 
 
 
